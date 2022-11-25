@@ -13,14 +13,14 @@ function refFn(field, component) {
 
 class Picker extends Component {
   static defaultProps = {
-    clearText: 'clear',
-    prefixCls: 'rc-time-picker',
+    clearText: "clear",
+    prefixCls: "rc-time-picker",
     defaultOpen: false,
     inputReadOnly: false,
     style: {},
-    className: '',
-    inputClassName: '',
-    popupClassName: '',
+    className: "",
+    inputClassName: "",
+    popupClassName: "",
     popupStyle: {},
     align: {},
     defaultOpenValue: moment(),
@@ -32,7 +32,7 @@ class Picker extends Component {
     disabledMinutes: noop,
     disabledSeconds: noop,
     hideDisabledOptions: false,
-    placement: 'bottomLeft',
+    placement: "bottomLeft",
     onChange: noop,
     onAmPmChange: noop,
     onOpen: noop,
@@ -43,13 +43,19 @@ class Picker extends Component {
     use12Hours: false,
     focusOnOpen: false,
     onKeyDown: noop,
+    allowAllTimeValues: false,
   };
 
   constructor(props) {
     super(props);
-    this.saveInputRef = refFn.bind(this, 'picker');
-    this.savePanelRef = refFn.bind(this, 'panelInstance');
-    const { defaultOpen, defaultValue, open = defaultOpen, value = defaultValue } = props;
+    this.saveInputRef = refFn.bind(this, "picker");
+    this.savePanelRef = refFn.bind(this, "panelInstance");
+    const {
+      defaultOpen,
+      defaultValue,
+      open = defaultOpen,
+      value = defaultValue,
+    } = props;
     this.state = {
       open,
       value,
@@ -58,7 +64,7 @@ class Picker extends Component {
 
   static getDerivedStateFromProps(props, state) {
     const newState = {};
-    if ('value' in props) {
+    if ("value" in props) {
       newState.value = props.value;
     }
     if (props.open !== undefined) {
@@ -72,22 +78,22 @@ class Picker extends Component {
       : null;
   }
 
-  onPanelChange = value => {
+  onPanelChange = (value) => {
     this.setValue(value);
   };
 
-  onAmPmChange = ampm => {
+  onAmPmChange = (ampm) => {
     const { onAmPmChange } = this.props;
     onAmPmChange(ampm);
   };
 
-  onClear = event => {
+  onClear = (event) => {
     event.stopPropagation();
     this.setValue(null);
     this.setOpen(false);
   };
 
-  onVisibleChange = open => {
+  onVisibleChange = (open) => {
     this.setOpen(open);
   };
 
@@ -96,7 +102,7 @@ class Picker extends Component {
     this.focus();
   };
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     if (e.keyCode === 40) {
       this.setOpen(true);
     }
@@ -104,7 +110,7 @@ class Picker extends Component {
 
   setValue(value) {
     const { onChange } = this.props;
-    if (!('value' in this.props)) {
+    if (!("value" in this.props)) {
       this.setState({
         value,
       });
@@ -119,16 +125,24 @@ class Picker extends Component {
     }
 
     if (use12Hours) {
-      const fmtString = [showHour ? 'h' : '', showMinute ? 'mm' : '', showSecond ? 'ss' : '']
-        .filter(item => !!item)
-        .join(':');
+      const fmtString = [
+        showHour ? "h" : "",
+        showMinute ? "mm" : "",
+        showSecond ? "ss" : "",
+      ]
+        .filter((item) => !!item)
+        .join(":");
 
-      return fmtString.concat(' a');
+      return fmtString.concat(" a");
     }
 
-    return [showHour ? 'HH' : '', showMinute ? 'mm' : '', showSecond ? 'ss' : '']
-      .filter(item => !!item)
-      .join(':');
+    return [
+      showHour ? "HH" : "",
+      showMinute ? "mm" : "",
+      showSecond ? "ss" : "",
+    ]
+      .filter((item) => !!item)
+      .join(":");
   }
 
   getPanelElement() {
@@ -153,6 +167,7 @@ class Picker extends Component {
       minuteStep,
       secondStep,
       clearIcon,
+      allowAllTimeValues
     } = this.props;
     const { value } = this.state;
     return (
@@ -183,12 +198,20 @@ class Picker extends Component {
         focusOnOpen={focusOnOpen}
         onKeyDown={onKeyDown}
         clearIcon={clearIcon}
+        allowAllTimeValues={allowAllTimeValues}
       />
     );
   }
 
   getPopupClassName() {
-    const { showHour, showMinute, showSecond, use12Hours, prefixCls, popupClassName } = this.props;
+    const {
+      showHour,
+      showMinute,
+      showSecond,
+      use12Hours,
+      prefixCls,
+      popupClassName,
+    } = this.props;
     let selectColumnCount = 0;
     if (showHour) {
       selectColumnCount += 1;
@@ -206,9 +229,10 @@ class Picker extends Component {
     return classNames(
       popupClassName,
       {
-        [`${prefixCls}-panel-narrow`]: (!showHour || !showMinute || !showSecond) && !use12Hours,
+        [`${prefixCls}-panel-narrow`]:
+          (!showHour || !showMinute || !showSecond) && !use12Hours,
       },
-      `${prefixCls}-panel-column-${selectColumnCount}`,
+      `${prefixCls}-panel-column-${selectColumnCount}`
     );
   }
 
@@ -216,7 +240,7 @@ class Picker extends Component {
     const { onOpen, onClose } = this.props;
     const { open: currentOpen } = this.state;
     if (currentOpen !== open) {
-      if (!('open' in this.props)) {
+      if (!("open" in this.props)) {
         this.setState({ open });
       }
       if (open) {
@@ -237,7 +261,8 @@ class Picker extends Component {
 
   renderClearButton() {
     const { value } = this.state;
-    const { prefixCls, allowEmpty, clearIcon, clearText, disabled } = this.props;
+    const { prefixCls, allowEmpty, clearIcon, clearText, disabled } =
+      this.props;
     if (!allowEmpty || !value || disabled) {
       return null;
     }
@@ -298,7 +323,7 @@ class Picker extends Component {
         popupAlign={align}
         builtinPlacements={placements}
         popupPlacement={placement}
-        action={disabled ? [] : ['click']}
+        action={disabled ? [] : ["click"]}
         destroyPopupOnHide
         getPopupContainer={getPopupContainer}
         popupTransitionName={transitionName}
@@ -314,7 +339,7 @@ class Picker extends Component {
             name={name}
             onKeyDown={this.onKeyDown}
             disabled={disabled}
-            value={(value && value.format(this.getFormat())) || ''}
+            value={(value && value.format(this.getFormat())) || ""}
             autoComplete={autoComplete}
             onFocus={onFocus}
             onBlur={onBlur}
