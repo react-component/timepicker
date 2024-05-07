@@ -46,8 +46,8 @@
     "rc-util": "^5.1.0"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development father doc dev --storybook",
